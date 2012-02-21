@@ -64,7 +64,7 @@ doc:
 ##########
 install:
 	$(MKDIR) $(INSTALLDIR)
-	$(CP) xtmpl.cm* $(INSTALLDIR)
+	$(CP) xtmpl.cm* xtmpl.o $(INSTALLDIR)
 
 #####
 clean:
