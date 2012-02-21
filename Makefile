@@ -56,7 +56,7 @@ xtmpl.cmi: xtmpl.mli
 	$(OCAMLC) -c $(COMPFLAGS) $<
 
 ##########
-.PHONY doc
+.PHONY: doc
 doc:
 	$(MKDIR) doc
 	$(OCAMLDOC) $(INCLUDES) xtmpl.mli -d doc -html
