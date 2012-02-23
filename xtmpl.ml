@@ -90,6 +90,7 @@ let string_of_env env =
 
 let tag_main = "main";;
 let tag_env = "env_";;
+let att_defer = "defer_";;
 
 let pad = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> "
 let pad_len = String.length pad;;
@@ -201,19 +202,33 @@ and eval_xml env = function
     | _ as att -> att
     in
     let atts = List.map f atts in
+    let (defer,atts) = List.partition
+      (function
+       | (("",s), n) when s = att_defer ->
+           (try ignore (int_of_string n); true
+            with _ -> false)
+       | _ -> false
+      )
+      atts
+    in
+    let defer =
+      match defer with
+        [] -> 0
+      | ((_,_), n) :: _ -> int_of_string n
+    in
     match tag with
       ("", t) when t = tag_env -> ((eval_env env atts subs) : tree list)
     | (uri, tag) ->
         match uri, env_get tag env with
         | "", Some f ->
-            if tag.[String.length tag - 1] = '_' then
-            (* defer evaluation, evaluate subs first *)
+            if defer > 0 then
+              (* defer evaluation, evaluate subs first *)
               (
                let subs = List.flatten
                  (List.map (eval_xml env) subs)
                in
-               let tag = String.sub tag 0 (String.length tag - 1) in
-               [ E (((uri, tag), atts), subs) ]
+               let att_defer = (("",att_defer), string_of_int (defer-1)) in
+               [ E (((uri, tag), att_defer :: atts), subs) ]
               )
             else
               (
