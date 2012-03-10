@@ -224,11 +224,10 @@ and eval_xml env = function
             if defer > 0 then
               (* defer evaluation, evaluate subs first *)
               (
-               let subs = List.flatten
-                 (List.map (eval_xml env) subs)
-               in
+               let subs = List.flatten (List.map (eval_xml env) subs) in
                let att_defer = (("",att_defer), string_of_int (defer-1)) in
-               [ E (((uri, tag), att_defer :: atts), subs) ]
+               let atts = att_defer :: atts in
+               [ E (((uri, tag), atts), subs) ]
               )
             else
               (
