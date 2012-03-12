@@ -78,8 +78,10 @@ let env_get s env =
 ;;
 
 let rec fix_point ?(n=0) f x =
+  (*
   let file = Printf.sprintf "/tmp/fixpoint%d.txt" n in
   file_of_string ~file x;
+  *)
   let y = f x in
   if y = x then x else fix_point ~n: (n+1) f y
 ;;
