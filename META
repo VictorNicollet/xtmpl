@@ -1,0 +1,7 @@
+version = "0.1"
+description = "OCaml text templating library"
+requires = "str,xmlm"
+archive(toploop) = "xtmpl.cmo"
+archive(byte) = "xtmpl.cmo"
+archive(native) = "xtmpl.cmx"
+
