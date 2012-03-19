@@ -27,7 +27,7 @@
 #                                                                               #
 #################################################################################
 
-INCLUDES=-I +xmlm
+INCLUDES=`ocamlfind query -i-format xmlm`
 COMPFLAGS=$(INCLUDES) -annot -rectypes
 OCAMLPP=
 
