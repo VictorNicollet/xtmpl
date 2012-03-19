@@ -63,7 +63,7 @@ doc:
 
 ##########
 install: xtmpl.cmo xtmpl.cmx
-	ocamlfind install xtmpl META LICENSE xtmpl.mli xtmpl.cmo xtmpl.cmx
+	ocamlfind install xtmpl META LICENSE xtmpl.cmi xtmpl.mli xtmpl.cmo xtmpl.cmx
 
 uninstall:
 	ocamlfind remove xtmpl
