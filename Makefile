@@ -62,9 +62,11 @@ doc:
 	$(OCAMLDOC) $(INCLUDES) xtmpl.mli -d doc -html
 
 ##########
-install:
-	$(MKDIR) $(INSTALLDIR)
-	$(CP) xtmpl.cm* xtmpl.o $(INSTALLDIR)
+install: xtmpl.cmo xtmpl.cmx
+	ocamlfind install xtmpl META LICENSE xtmpl.mli xtmpl.cmo xtmpl.cmx
+
+uninstall:
+	ocamlfind remove xtmpl
 
 #####
 clean:
