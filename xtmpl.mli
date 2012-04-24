@@ -47,7 +47,7 @@ and tree =
 						     *)
   | D of string
 
-(** {1 Environment} 
+(** {2 Environment} 
     
     An {!type:env} is a string-to-{!type:callback} associative map. In addition
     to basic manipulation functions, the functions {!val:env_add_att} and
@@ -108,7 +108,7 @@ val env_add_att : string -> string -> env -> env
 *)
 val env_of_list : ?env:env -> (string * callback) list -> env
 
-(** {1 XML Manipulation} *)
+(** {2 XML Manipulation} *)
 
 (** The main tag, currently ["main"]. 
 
@@ -134,11 +134,11 @@ val string_of_xml : tree -> string
     
     @param add_main if true, adds [<main>..</main>] around the string 
     (see {!val:tag_main}). 
-    @raises Failure when a parsing error occurs, includes the source string. 
+    @raise Failure when a parsing error occurs, includes the source string. 
 *)
 val xml_of_string : ?add_main:bool -> string -> tree
 
-(** {1 Templating engine} 
+(** {2 Templating engine} 
 
     These functions apply one of two variants of the templating engine. 
     The first variant, used by {!val:eval_xml} and {!val:apply_to_xmls}, 
@@ -161,45 +161,45 @@ val xml_of_string : ?add_main:bool -> string -> tree
     This would look for a callback bound to ["album"] in the environment
     and call it using [callback env ["author","Rammstein";"name","Reise, Reise"] xml] 
     where [env] is the current environment and [xml] represents the 
-    two child {v <track>..</track> v} elements. 
+    two child [ <track>..</track> ] elements. 
 
     {b II.} The callback returns a new list of elements that is used 
     instead of the old element. 
 
     {i Example}: assuming that [env_add "x2" (fun _ _ xml -> xml @ xml)],
-    then {v <x2>A</x2> v} is rewritten as {v AA v}.
+    then [<x2>A</x2>] is rewritten as [AA].
 
     {b III.} The engine then recursively descends into those replacement
     elements (this means that a poorly conceived rule set may well never 
     terminate). 
 
-    {i Example}: {v <x2><x2>A</x2></x2> v} is first rewritten as 
-    {v <x2>A</x2><x2>A</x2> v}, and then as {v AAAA v}.
+    {i Example}: [<x2><x2>A</x2></x2>] is first rewritten as 
+    [<x2>A</x2><x2>A</x2>], and then as [AAAA].
 
-    {b IV.} The {v env_ v} and {v main v} elements (see {!val:tag_env} 
+    {b IV.} The [env_] and [main] elements (see {!val:tag_env} 
     and {!val:tag_main}) are a special case: both are automatically 
     replaced with their children (as if their callback was
     [(fun _ _ xml -> xml)]). 
 
-    First difference, {v main v} is only available in the second 
+    First difference, [main] is only available in the second 
     templating engine variant (so, it is not available in {!val:eval_xml} 
     and {!val:apply_to_xmls}) but it may be manually defined or overriden. 
 
-    Second difference, {v env_ v} effectively changes the environment
+    Second difference, [env_] effectively changes the environment
     used when processing its children by adding the bindings defined by
     its arguments (using {!val:env_add_att}, hence the name). 
 
-    {i Example}: {v <env_ a="&lt;b&gt;A&lt;/b&gt;"><a/></env_> v} is
-    replaced by {v <a/> v}, which in turn is replaced by 
-    {v <b>A</b> v}. 
+    {i Example}: [<env_ a="&lt;b&gt;A&lt;/b&gt;"><a/></env_>] is
+    replaced by [<a/>], which in turn is replaced by 
+    [<b>A</b>]. 
 
-    {b V.} If an element has a {v defer_ v} attribute (that is greater
+    {b V.} If an element has a [defer_] attribute (that is greater
     than zero), then it is not processed and the attribute is decremented
     by one, and the processing recursively applies to its children. 
 
-    {i Example}: {v <x2 defer_="1"><x2>A</x2></x2> v} is rewritten as
-    {v <x2 defer_="0">AA</x2> v}. Applying the template engine on a 
-    {b second} iteration would rewrite this to {v AAAA v}. 
+    {i Example}: [<x2 defer_="1"><x2>A</x2></x2>] is rewritten as
+    [<x2 defer_="0">AA</x2>]. Applying the template engine on a 
+    {b second} iteration would rewrite this to [AAAA]. 
 *)
 
 (** Apply {b one} iteration of the rules to a piece of XML. 
@@ -237,7 +237,7 @@ val apply_to_file : ?head:string -> env -> string -> string -> unit
 *)
 val apply_string_to_file : ?head:string -> env -> string -> string -> unit
 
-(** {1 Utilities} 
+(** {2 Utilities} 
 
     Several useful functions when workin with XML. 
 *)
