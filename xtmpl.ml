@@ -146,6 +146,7 @@ let xml_of_string ?(add_main=true) s =
 ;;
 
 
+(*
 let re_escape = Str.regexp "&\\(\\([a-z]+\\)\\|\\(#[0-9]+\\)\\);";;
 
 let escape_ampersand s =
@@ -163,6 +164,7 @@ let escape_ampersand s =
 
 let re_amp = Str.regexp_string "&amp;";;
 let unescape_ampersand s = Str.global_replace re_amp "&" s;;
+*)
 
 let env_add_att a v env =
   env_add a (fun _ _ _ -> [xml_of_string v]) env
@@ -192,6 +194,7 @@ and eval_xml env = function
         (("", tag), List.map (fun (s,v) -> (("",s), v)) atts, subs)
       | E ((tag, atts), subs) -> (tag, atts, subs)
     in
+(*
     let f = function
       (("",s), v) ->
         let v2 = eval_string env (escape_ampersand v) in
@@ -204,6 +207,7 @@ and eval_xml env = function
     | _ as att -> att
     in
     let atts = List.map f atts in
+*)
     let (defer,atts) = List.partition
       (function
        | (("",s), n) when s = att_defer ->
