@@ -110,7 +110,7 @@ val env_of_list : ?env:env -> (string * callback) list -> env
 
 (** {2 XML Manipulation} *)
 
-(** The main tag, currently ["main"]. 
+(** The main tag, currently ["main_"]. 
 
     Used by {!val:env_add_att}, {!val:xml_of_string} and, most importantly, 
     by the {!val:apply} functions. 
