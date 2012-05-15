@@ -90,17 +90,14 @@ let string_of_env env =
   String.concat ", " (Str_map.fold (fun s _ acc -> s :: acc) env [])
 ;;
 
-let tag_main = "main";;
+let tag_main = "main_";;
 let tag_env = "env_";;
 let att_defer = "defer_";;
-
-let pad = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> "
-let pad_len = String.length pad;;
 
 let string_of_xml tree =
   try
     let b = Buffer.create 256 in
-    let output = Xmlm.make_output (`Buffer b) in
+    let output = Xmlm.make_output ~decl: false (`Buffer b) in
     let frag = function
     | E (tag, childs) -> `El (tag, childs)
     | T (tag, atts, childs) ->
@@ -110,9 +107,7 @@ let string_of_xml tree =
     | D d -> `Data d
     in
     Xmlm.output_doc_tree frag output (None, tree);
-    let s = Buffer.contents b in
-    let len = String.length s in
-    String.sub s pad_len (len - pad_len)
+    Buffer.contents b
   with
     Xmlm.Error ((line, col), error) ->
       let msg = Printf.sprintf "Line %d, column %d: %s"
